@@ -36,6 +36,10 @@ define(function() {
 
     curryIt : function(fn) {
 
+    },
+    
+    memoizeIt : function(fn) {
+      
     }
   };
 });

@@ -118,8 +118,8 @@ define([
       expect(answers.partialUsingArguments(partialMe, a, b, c)()).to.eql(partialMe(a, b, c));
     });
 
-    it('you should be able to curry existing functions', function () {
-      var curryMe = function (x, y, z) {
+    it('you should be able to curry existing functions', function() {
+      var curryMe = function(x, y, z) {
         return x / y * z;
       };
 
@@ -127,19 +127,61 @@ define([
 
       result = answers.curryIt(curryMe);
       expect(typeof result).to.eql('function');
-      expect(result.length).to.eql(1);
 
       result = answers.curryIt(curryMe)(a);
       expect(typeof result).to.eql('function');
-      expect(result.length).to.eql(1);
 
       result = answers.curryIt(curryMe)(a)(b);
       expect(typeof result).to.eql('function');
-      expect(result.length).to.eql(1);
 
       result = answers.curryIt(curryMe)(a)(b)(c);
       expect(typeof result).to.eql('number');
       expect(result).to.eql(curryMe(a, b, c));
+
+      result = answers.curryIt(curryMe, a)(b, c);
+      expect(typeof result).to.eql('number');
+      expect(result).to.eql(curryMe(a, b, c));
+
+      result = answers.curryIt(curryMe, a, b, c);
+      expect(typeof result).to.eql('number');
+      expect(result).to.eql(curryMe(a, b, c));
+
+      result = answers.curryIt(curryMe, a, b)(c);
+      expect(typeof result).to.eql('number');
+      expect(result).to.eql(curryMe(a, b, c));
+
+      result = answers.curryIt(curryMe)(a, b, c);
+      expect(typeof result).to.eql('number');
+      expect(result).to.eql(curryMe(a, b, c));
+
+      result = answers.curryIt(curryMe)()()(a, b, c);
+      expect(typeof result).to.eql('number');
+      expect(result).to.eql(curryMe(a, b, c));
+    });
+    
+    it('you should be able to memoize arguments', function() {
+      
+      var memoizeMe = function(x, y, z) {
+        if (z !== undefined) {
+          return x / y * z;
+        } else {
+          return x * y;
+        }
+      };
+
+      var a = Math.random(), b = Math.random(), c = Math.random(), result;
+      
+      result = answers.memoizeIt(memoizeMe);
+      
+      expect(typeof result).to.eql('function');
+      expect(result.cache).to.eql({});
+      
+      expect(result(a, b)).to.eql(memoizeMe(a, b));
+      expect(result.cache[a + ' ' + b]).to.eql(memoizeMe(a, b));
+      
+      expect(result(a, b, c)).to.eql(memoizeMe(a, b, c));
+      expect(result.cache[a + ' ' + b + ' ' + c]).to.eql(memoizeMe(a, b, c));
+      
     });
   });
 });
