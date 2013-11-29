@@ -60,6 +60,8 @@ define([
       expect(answers.isUSD('$3,432,12.12')).to.eql(false);
       expect(answers.isUSD('$3,432,1,034.12')).to.eql(false);
       expect(answers.isUSD('4$3,432,034.12')).to.eql(false);
+      expect(answers.isUSD('$0')).to.eql(true);
+      expect(answers.isUSD('$0.00')).to.eql(true);
     });
 
   });
