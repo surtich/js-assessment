@@ -30,7 +30,8 @@ define(function() {
         } else {
           for (var i = 0; i < arr.length; i++) {
             var clone = arr.slice(0);
-            permute(clone, pre.concat(clone.splice(i, 1)), results);
+            var item = clone.splice(i, 1);
+            permute(clone, pre.concat(item), results);
           }
         }
         return results;

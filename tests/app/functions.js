@@ -164,5 +164,30 @@ define([
       expect(typeof result).to.eql('number');
       expect(result).to.eql(curryMe(a, b, c));
     });
+    
+    it('you should be able to memoize arguments', function() {
+      
+      var memoizeMe = function(x, y, z) {
+        if (z !== undefined) {
+          return x / y * z;
+        } else {
+          return x * y;
+        }
+      };
+
+      var a = Math.random(), b = Math.random(), c = Math.random(), result;
+      
+      result = answers.memoizeIt(memoizeMe);
+      
+      expect(typeof result).to.eql('function');
+      expect(result.cache).to.eql({});
+      
+      expect(result(a, b)).to.eql(memoizeMe(a, b));
+      expect(result.cache[a + ' ' + b]).to.eql(memoizeMe(a, b));
+      
+      expect(result(a, b, c)).to.eql(memoizeMe(a, b, c));
+      expect(result.cache[a + ' ' + b + ' ' + c]).to.eql(memoizeMe(a, b, c));
+      
+    });
   });
 });

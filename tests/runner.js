@@ -6,6 +6,7 @@ var tests = [
   'tests/app/objects',
   'tests/app/functions',
   'tests/app/modules',
+  'tests/app/inheritance',
   'tests/app/flowControl',
   'tests/app/logicalOperators',
   'tests/app/regex',
